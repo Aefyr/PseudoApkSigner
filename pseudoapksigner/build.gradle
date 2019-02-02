@@ -1,5 +1,15 @@
 apply plugin: 'com.android.library'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+    }
+}
+
 android {
     compileSdkVersion 28
 
@@ -16,9 +26,33 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'PseudoApkSigner'
+
+    libraryName = 'PseudoApkSigner'
+    publishedGroupId = 'com.github.aefyr'
+    artifact = 'pseudoapksigner'
+    libraryVersion = '1.0'
+
+    libraryDescription = 'A lightweight Java library to sign APK files on Android'
+
+    siteUrl = 'https://github.com/Aefyr/PseudoApkSigner'
+    gitUrl = 'https://github.com/Aefyr/PseudoApkSigner.git'
+
+
+    developerId = 'aefyr'
+    developerName = 'Edward Lincoln'
+    developerEmail = 'polychromaticfox@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply from: 'bintray.gradle'
+
