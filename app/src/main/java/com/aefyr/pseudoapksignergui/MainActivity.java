@@ -1,14 +1,9 @@
 package com.aefyr.pseudoapksignergui;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.aefyr.pseudoapksignergui.ui.dialogs.ApkSignedDialogFragment;
 import com.aefyr.pseudoapksignergui.ui.dialogs.FilePickerDialogFragment;
@@ -19,6 +14,10 @@ import com.github.angads25.filepicker.model.DialogProperties;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 public class MainActivity extends AppCompatActivity implements FilePickerDialogFragment.OnFilesSelectedListener {
 
@@ -32,11 +31,11 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
 
         mSignButton = findViewById(R.id.button_sign);
 
-        mSignButton.setOnClickListener((v)->checkPermissionsAndPickFiles());
+        mSignButton.setOnClickListener((v) -> checkPermissionsAndPickFiles());
 
         mSignerViewModel = ViewModelProviders.of(this).get(SignerViewModel.class);
-        mSignerViewModel.getState().observe(this, (state)->{
-            switch (state){
+        mSignerViewModel.getState().observe(this, (state) -> {
+            switch (state) {
                 case IDLE:
                     mSignButton.setText(R.string.signer_sign);
                     mSignButton.setEnabled(true);
@@ -48,11 +47,11 @@ public class MainActivity extends AppCompatActivity implements FilePickerDialogF
             }
         });
         mSignerViewModel.getEvents().observe(this, (event -> {
-            if(event.isConsumed())
+            if (event.isConsumed())
                 return;
 
             String[] eventData = event.consume();
-            switch (eventData[0]){
+            switch (eventData[0]) {
                 case SignerViewModel.EVENT_SIGNING_SUCCEED:
                     ApkSignedDialogFragment.newInstance(new File(eventData[1])).show(getSupportFragmentManager(), "apk_signed");
                     break;

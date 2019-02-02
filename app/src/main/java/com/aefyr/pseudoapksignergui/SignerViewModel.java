@@ -19,7 +19,7 @@ public class SignerViewModel extends AndroidViewModel implements PseudoApkSigner
 
     private Context mContext;
 
-    public enum State{
+    public enum State {
         IDLE, SIGNING
     }
 
@@ -33,30 +33,30 @@ public class SignerViewModel extends AndroidViewModel implements PseudoApkSigner
         mState.setValue(State.IDLE);
     }
 
-    public LiveData<State> getState(){
+    public LiveData<State> getState() {
         return mState;
     }
 
-    public LiveData<Event<String[]>> getEvents(){
+    public LiveData<Event<String[]>> getEvents() {
         return mEvents;
     }
 
-    public void sign(File apkFile){
-        if(mState.getValue() == State.SIGNING)
+    public void sign(File apkFile) {
+        if (mState.getValue() == State.SIGNING)
             throw new IllegalStateException("SignerViewModel is already signing an APK");
 
         mState.setValue(State.SIGNING);
         PseudoApkSignerWrapper.getInstance(mContext).sign(apkFile, getSignedApkFilePath(apkFile), this);
     }
 
-    private File getSignedApkFilePath(File originalAPK){
+    private File getSignedApkFilePath(File originalAPK) {
         File signedApkFilesDir = new File(Environment.getExternalStorageDirectory(), "PseudoApkSigner");
         signedApkFilesDir.mkdir();
 
         String rawFileName = originalAPK.getName();
         int indexOfLastDot = rawFileName.lastIndexOf('.');
         String fileName = rawFileName.substring(0, indexOfLastDot);
-        String fileExtension = rawFileName.substring(indexOfLastDot+1);
+        String fileExtension = rawFileName.substring(indexOfLastDot + 1);
 
         return new File(signedApkFilesDir, String.format("%s_signed.%s", fileName, fileExtension));
     }

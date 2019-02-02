@@ -26,33 +26,34 @@ public class PseudoApkSignerWrapper {
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private PseudoApkSigner mPseudoApkSigner;
 
-    public static PseudoApkSignerWrapper getInstance(Context c){
-        return sInstance != null? sInstance:new PseudoApkSignerWrapper(c);
+    public static PseudoApkSignerWrapper getInstance(Context c) {
+        return sInstance != null ? sInstance : new PseudoApkSignerWrapper(c);
     }
 
-    private PseudoApkSignerWrapper(Context c){
+    private PseudoApkSignerWrapper(Context c) {
         mContext = c.getApplicationContext();
         sInstance = this;
     }
 
-    public interface SignerCallback{
+    public interface SignerCallback {
         void onSigningSucceeded(File signedApkFile);
+
         void onSigningFailed(Exception error);
     }
 
-    public void sign(File inputApkFile, File outputSignedApkFile, SignerCallback callback){
-        mExecutor.execute(()->{
+    public void sign(File inputApkFile, File outputSignedApkFile, SignerCallback callback) {
+        mExecutor.execute(() -> {
             try {
                 checkAndPrepareSigningEnvironment();
 
-                if(mPseudoApkSigner == null)
+                if (mPseudoApkSigner == null)
                     mPseudoApkSigner = new PseudoApkSigner(new File(getSigningEnvironmentDir(), FILE_NAME_PAST), new File(getSigningEnvironmentDir(), FILE_NAME_PRIVATE_KEY));
 
                 mPseudoApkSigner.sign(inputApkFile, outputSignedApkFile);
-                mHandler.post(()->callback.onSigningSucceeded(outputSignedApkFile));
-            }catch (Exception e){
+                mHandler.post(() -> callback.onSigningSucceeded(outputSignedApkFile));
+            } catch (Exception e) {
                 Log.w(TAG, e);
-                mHandler.post(()->callback.onSigningFailed(e));
+                mHandler.post(() -> callback.onSigningFailed(e));
             }
 
         });

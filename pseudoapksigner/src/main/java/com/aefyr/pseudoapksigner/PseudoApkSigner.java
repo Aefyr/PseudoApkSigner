@@ -26,7 +26,8 @@ public class PseudoApkSigner {
 
     /**
      * Creates a new PseudoApkSigner with given template and private key
-     * @param template .RSA file from an APK signed with an actual apksigner with the same private key with last 256 bytes removed
+     *
+     * @param template   .RSA file from an APK signed with an actual apksigner with the same private key with last 256 bytes removed
      * @param privateKey .pk8 private key file
      */
     public PseudoApkSigner(File template, File privateKey) throws Exception {
@@ -74,17 +75,19 @@ public class PseudoApkSigner {
 
     /**
      * Sets name of the .SF file in META-INF
+     *
      * @param signatureFileName desired .SF file name
      */
-    public void setSignatureFileName(String signatureFileName){
+    public void setSignatureFileName(String signatureFileName) {
         mSignatureFileName = signatureFileName;
     }
 
     /**
      * Sets name of the .RSA file in META-INF
+     *
      * @param signatureBlockFileName desired .RSA file name
      */
-    public void setSignatureBlockFileName(String signatureBlockFileName){
+    public void setSignatureBlockFileName(String signatureBlockFileName) {
         mSignatureBlockFileName = signatureBlockFileName;
     }
 
