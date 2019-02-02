@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">PseudoApkSigner</string>
+
+    <string name="ok">OK</string>
+
+    <string name="common_error">Error</string>
+
+    <string name="signer_sign">Sign</string>
+    <string name="signer_signing">Signing…</string>
+    <string name="signer_pick_apks">Pick APKs</string>
+    <string name="signer_permissions_denied">Can\'t access storage without permissions</string>
+    <string name="signer_signing_failed">Signing failed: %s</string>
+    <string name="signer_apk_signed">Signing completed</string>
+    <string name="signer_apk_signed_desc">Signed APK was saved as %s</string>
+    <string name="signer_install">Install</string>
+
+</resources>
