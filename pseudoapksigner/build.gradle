@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdkVersion 1
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
     }
 
     buildTypes {
@@ -35,7 +35,7 @@ ext {
     libraryName = 'PseudoApkSigner'
     publishedGroupId = 'com.github.aefyr'
     artifact = 'pseudoapksigner'
-    libraryVersion = '1.0'
+    libraryVersion = '1.1'
 
     libraryDescription = 'A lightweight Java library to sign APK files on Android'
 
