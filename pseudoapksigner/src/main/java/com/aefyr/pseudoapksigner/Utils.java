@@ -5,7 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.KeyFactory;
 import java.security.MessageDigest;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 
 public class Utils {
 
@@ -43,5 +48,27 @@ public class Utils {
         while ((len = from.read(buf)) > 0) {
             to.write(buf, 0, len);
         }
+    }
+
+    static byte[] sign(String hashingAlgorithm, PrivateKey privateKey, byte[] message) throws Exception {
+        Signature sign = Signature.getInstance(hashingAlgorithm + "withRSA");
+        sign.initSign(privateKey);
+        sign.update(message);
+        return sign.sign();
+    }
+
+    static RSAPrivateKey readPrivateKey(File file) throws Exception {
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(readFile(file));
+        return (RSAPrivateKey) KeyFactory.getInstance("RSA").generatePrivate(keySpec);
+    }
+
+    static byte[] readFile(File file) throws IOException {
+        byte[] fileBytes = new byte[(int) file.length()];
+
+        FileInputStream inputStream = new FileInputStream(file);
+        inputStream.read(fileBytes);
+        inputStream.close();
+
+        return fileBytes;
     }
 }
