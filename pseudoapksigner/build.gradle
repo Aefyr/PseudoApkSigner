@@ -35,7 +35,7 @@ ext {
     libraryName = 'PseudoApkSigner'
     publishedGroupId = 'com.github.aefyr'
     artifact = 'pseudoapksigner'
-    libraryVersion = '1.2'
+    libraryVersion = '1.3'
 
     libraryDescription = 'A lightweight Java library to sign APK files on Android'
 
