@@ -47,9 +47,21 @@ public class ZipAlignZipOutputStream extends ZipOutputStream {
         }
 
         @Override
+        public void write(byte[] b) throws IOException {
+            mWrappedOutputStream.write(b);
+            mBytesWritten += b.length;
+        }
+
+        @Override
         public void write(int b) throws IOException {
             mWrappedOutputStream.write(b);
             mBytesWritten++;
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) throws IOException {
+            mWrappedOutputStream.write(b, off, len);
+            mBytesWritten += len;
         }
 
         private long getBytesWritten() {
