@@ -41,7 +41,7 @@ public class PseudoApkSigner {
 
         ZipInputStream apkZipInputStream = new ZipInputStream(apkInputStream);
 
-        ZipOutputStream zipOutputStream = new ZipOutputStream(output);
+        ZipOutputStream zipOutputStream = ZipAlignZipOutputStream.create(output, 4);
         MessageDigest messageDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
         ZipEntry zipEntry;
         while ((zipEntry = apkZipInputStream.getNextEntry()) != null) {
@@ -51,7 +51,15 @@ public class PseudoApkSigner {
             messageDigest.reset();
             DigestInputStream entryInputStream = new DigestInputStream(apkZipInputStream, messageDigest);
 
-            zipOutputStream.putNextEntry(new ZipEntry(zipEntry.getName()));
+            ZipEntry newZipEntry = new ZipEntry(zipEntry.getName());
+            newZipEntry.setMethod(zipEntry.getMethod());
+            if (zipEntry.getMethod() == ZipEntry.STORED) {
+                newZipEntry.setSize(zipEntry.getSize());
+                newZipEntry.setCompressedSize(zipEntry.getSize());
+                newZipEntry.setCrc(zipEntry.getCrc());
+            }
+
+            zipOutputStream.putNextEntry(newZipEntry);
             Utils.copyStream(entryInputStream, zipOutputStream);
             zipOutputStream.closeEntry();
             apkZipInputStream.closeEntry();
