@@ -22,6 +22,14 @@ public class ZipAlignZipOutputStream extends ZipOutputStream {
         mAlignment = alignment;
     }
 
+    public void setAlignment(int alignment) {
+        mAlignment = alignment;
+    }
+
+    public int getAlignment() {
+        return mAlignment;
+    }
+
     @Override
     public void putNextEntry(ZipEntry zipEntry) throws IOException {
         if (zipEntry.getMethod() == ZipEntry.STORED) {

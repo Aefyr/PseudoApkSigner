@@ -10,7 +10,6 @@ import java.security.MessageDigest;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 public class PseudoApkSigner {
     private static final String HASHING_ALGORITHM = "SHA1";
@@ -41,7 +40,7 @@ public class PseudoApkSigner {
 
         ZipInputStream apkZipInputStream = new ZipInputStream(apkInputStream);
 
-        ZipOutputStream zipOutputStream = ZipAlignZipOutputStream.create(output, 4);
+        ZipAlignZipOutputStream zipOutputStream = ZipAlignZipOutputStream.create(output, 4);
         MessageDigest messageDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
         ZipEntry zipEntry;
         while ((zipEntry = apkZipInputStream.getNextEntry()) != null) {
@@ -59,6 +58,7 @@ public class PseudoApkSigner {
                 newZipEntry.setCrc(zipEntry.getCrc());
             }
 
+            zipOutputStream.setAlignment(newZipEntry.getName().endsWith(".so") ? 4096 : 4);
             zipOutputStream.putNextEntry(newZipEntry);
             Utils.copyStream(entryInputStream, zipOutputStream);
             zipOutputStream.closeEntry();
