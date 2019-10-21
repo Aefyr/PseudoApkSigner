@@ -12,6 +12,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class PseudoApkSigner {
+    private static final String[] META_INF_FILES_TO_SKIP_ENDINGS = new String[]{"manifest.mf", ".sf", ".rsa", ".dsa", ".ec"};
     private static final String HASHING_ALGORITHM = "SHA1";
 
     private RSAPrivateKey mPrivateKey;
@@ -43,9 +44,18 @@ public class PseudoApkSigner {
         ZipAlignZipOutputStream zipOutputStream = ZipAlignZipOutputStream.create(output, 4);
         MessageDigest messageDigest = MessageDigest.getInstance(HASHING_ALGORITHM);
         ZipEntry zipEntry;
+        OUTER:
         while ((zipEntry = apkZipInputStream.getNextEntry()) != null) {
-            if (zipEntry.isDirectory() || zipEntry.getName().toLowerCase().startsWith("meta-inf"))
+            if (zipEntry.isDirectory())
                 continue;
+
+            if(zipEntry.getName().toLowerCase().startsWith("meta-inf/")) {
+                for(String fileToSkipEnding: META_INF_FILES_TO_SKIP_ENDINGS) {
+                    if(zipEntry.getName().toLowerCase().endsWith(fileToSkipEnding))
+                        continue OUTER;
+                }
+            }
+
 
             messageDigest.reset();
             DigestInputStream entryInputStream = new DigestInputStream(apkZipInputStream, messageDigest);

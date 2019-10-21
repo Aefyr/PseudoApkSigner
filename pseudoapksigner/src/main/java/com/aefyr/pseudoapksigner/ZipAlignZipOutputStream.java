@@ -37,9 +37,7 @@ public class ZipAlignZipOutputStream extends ZipOutputStream {
             headerSize += zipEntry.getName().getBytes().length;
 
             int requiredPadding = (int) (mAlignment - ((mBytesCounter.getBytesWritten() + headerSize) % mAlignment));
-            if (requiredPadding != 0)
-                zipEntry.setExtra(new byte[requiredPadding]);
-
+            zipEntry.setExtra(new byte[requiredPadding]);
         }
 
         super.putNextEntry(zipEntry);
