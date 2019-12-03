@@ -23,3 +23,9 @@ new PseudoApkSigner(templateFile, privateKeyFile).sign(inputApkFile, outputSigne
 ```
 
 This will read APK from the `inputApkFile` file, sign it with .RSA file template read from the `templateFile` file and private key read from the `privateKeyFile` file and then write signed APK to the `outputSignedApkFile` file
+
+There's also `PseudoApkSignerInputStream` which wraps an APK `InputStream` and signs the APK, so you will be reading a signed APK from it. The only problem with it is that you won't be able to know the final size of the APK you'll read:
+```java
+PseudoApkSignerInputStream signedApkInputStream = new PseudoApkSignerInputStream(templateFile, privateKeyFile, unsignedApkInputStream);
+//Read signed apk
+```
