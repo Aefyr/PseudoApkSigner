@@ -6,7 +6,7 @@ PseudoApkSigner uses a trick to sign APKs. While it generates .MF and .SF files 
 
 ## How to make a .RSA file template
 1. Sign an APK using apksigner or jarsigner with the key you want to then use with PseudoApkSigner
-2. Extract .RSA file (located in META-INF directory) from the signed APK and remove the last 256 bytes from it with any hex editor
+2. Extract .RSA file (located in META-INF directory) from the signed APK and remove the last X bytes (where X equals your RSA key size) from it with any hex editor
 3. You're done, you can now use this .RSA file as a template file for PseudoApkSigner
 
 ## Adding to project
